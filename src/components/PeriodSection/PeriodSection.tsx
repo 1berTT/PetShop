@@ -1,0 +1,54 @@
+import { Sun, Cloudy, Moon } from "lucide-react";
+import { AppointmentPeriod } from "@/types/appointment";
+import { AppointmentCard } from "../AppointmentCard";
+
+const periodIcons = {
+  morning: <Sun className="text-accent-blue" />,
+  afternoon: <Cloudy className="text-accent-orange" />,
+  evening: <Moon className="text-accent-yellow" />,
+};
+
+type PeriodSectionProps = {
+  period: AppointmentPeriod;
+};
+
+export function PeriodSection({ period }: PeriodSectionProps) {
+  return (
+    <section className="mb-8 bg-background-tertiary rounded-xl">
+      <div className="flex items-center px-5 py-3 justify-between border-b border-[#2e2c30]">
+        <div className="flex items-center gap-2">
+          {periodIcons[period.type]}
+          <h2 className="text-label-large-size text-content-primary">
+            {period.title}
+          </h2>
+        </div>
+        <span className="text-label-large-size text-content-secondary">
+          {period.timeRange}
+        </span>
+      </div>
+      {period.appointments.length > 0 ? (
+        <div className="px-5">
+          <div>
+            {/* <div className="grid grid-cols-2 md:hidden lg:hidden text-label-small-size text-content-secondary mb-2">
+              <div className="text-left">Horário</div>
+              <div className="text-right">Paciente</div>
+            </div> */}
+            {period.appointments.map((appointment, index) => {
+              return (
+                <AppointmentCard
+                  appointment={appointment}
+                  key={index}
+                  isFirstInSection={index === 0}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <p className="text-paragraph-small-size text-content-secondary p-5">
+          Nenhum agendamento para este período
+        </p>
+      )}
+    </section>
+  );
+}
