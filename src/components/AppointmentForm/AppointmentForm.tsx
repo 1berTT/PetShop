@@ -42,7 +42,7 @@ import {
 } from "../ui/select";
 import { toast } from "sonner";
 import { createAppointment, updateAppointment } from "@/app/action";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Appointment } from "@/types/appointment";
 
 type AppointmentFormProps = {
