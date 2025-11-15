@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { formatDateTime } from "@/utils/appointments-utils";
 
 const appointmentSchema = z.object({
   petName: z.string().min(1),
@@ -32,7 +33,7 @@ export async function createAppointment(data: AppointmentData) {
 
     const { scheduleAt } = parsedData;
 
-    const hour = scheduleAt.getHours();
+    const hour = parseInt(formatDateTime(scheduleAt));
 
     const { isMorning, isAfternoon, isEvening } = calculatePeriod(hour);
 
@@ -72,7 +73,7 @@ export async function updateAppointment(id: string, data: AppointmentData) {
 
     const { scheduleAt } = parsedData;
 
-    const hour = scheduleAt.getHours();
+    const hour = parseInt(formatDateTime(scheduleAt));
 
     const { isMorning, isAfternoon, isEvening } = calculatePeriod(hour);
 

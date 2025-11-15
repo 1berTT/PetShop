@@ -30,7 +30,7 @@ import { FormMessage } from "../ui/form";
 import { IMaskInput } from "react-imask";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
-import { format, startOfToday } from "date-fns";
+import { format, setMinutes, setHours, startOfToday } from "date-fns";
 
 import { Calendar } from "../ui/calendar";
 import {
@@ -70,8 +70,10 @@ export function AppointmentForm({
 
   async function onSubmit(data: AppointmentFormSchema) {
     const [hour, minute] = data.time.split(":");
-    const scheduleAt = new Date(data.scheduleAt);
-    scheduleAt.setHours(Number(hour), Number(minute), 0, 0);
+    const scheduleAt = setMinutes(
+      setHours(data.scheduleAt, Number(hour)),
+      Number(minute)
+    );
 
     const isUpdate = !!appointment?.id;
 
